@@ -8,6 +8,12 @@ const App = () => {
 
   const addPerson = (evt) => {
     evt.preventDefault();
+    const personExists = persons.find(person => person.name.toLowerCase() === newName.toLocaleLowerCase());
+    if(personExists){
+      alert(`${newName} is already added to Phonebook`);
+      setNewName('')
+      return;
+    }
     const newPersonObject = {
       name: newName
     };
