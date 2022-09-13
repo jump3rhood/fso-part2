@@ -13,5 +13,4 @@ const Filter = ({persons}) => {
       </div>
   )
 }
-
 export default Filter
