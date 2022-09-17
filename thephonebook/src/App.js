@@ -16,7 +16,13 @@ const App = () => {
       setPersons(persons.concat(addedPerson))
     })
   }
-
+  const updatePerson = (id, personObj) => {
+    personService.update(id, personObj).then(updatedPerson => {
+      const updatedPersons = persons.filter(p => p.id !== id);
+      setPersons(updatedPersons.concat(updatedPerson));
+      alert(`${updatePerson.name}'s number successfully updated`)
+    })
+  }
   const deletePerson = (id) => {
     const person = persons.find(p => p.id === id);
     const confirm = window.confirm(`delete ${person.name} from phonebook`);
@@ -33,7 +39,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter persons={persons}/>
       <h3> Add a New Contact</h3>
-      <PersonForm addPerson={addPerson} persons={persons}/>
+      <PersonForm addPerson={addPerson} persons={persons} updatePerson={updatePerson}/>
       <h2>Numbers</h2>
         {persons.map(person=> <Person key={person.id} person={person}  handleDelete={()=> deletePerson(person.id)}/>)}
     </div>

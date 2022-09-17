@@ -1,18 +1,30 @@
 import React, {useState} from 'react'
 
-const PersonForm = ({persons, addPerson}) => {
+const PersonForm = ({persons, addPerson, updatePerson}) => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const personExists = persons.find(person => person.name.toLowerCase() === newName.toLowerCase());
-        if(personExists){
-          alert(`${newName} is already added to Phonebook`);
-          setNewName('')
-          return;
+        const foundPerson = persons.find(person => person.name.toLowerCase() === newName.toLowerCase());
+        let newPersonObject = null;
+        if(foundPerson){
+          if(foundPerson.number === newNumber){
+            alert(`${newName} is already added to Phonebook`);
+            setNewName('')
+            return;
+          } else{
+            newPersonObject = {
+              name: foundPerson.name,
+              number: newNumber
+            }
+            updatePerson(foundPerson.id, newPersonObject);
+            setNewName('');
+            setNewNumber('');
+            return;
+          }
         }
-        const newPersonObject = {
+        newPersonObject = {
           name: newName,
           number: newNumber
         };
