@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import personService from './services/persons';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
-import Persons from './components/Persons';
+import Person from './components/Person';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -17,6 +17,17 @@ const App = () => {
     })
   }
 
+  const deletePerson = (id) => {
+    const person = persons.find(p => p.id === id);
+    const confirm = window.confirm(`delete ${person.name} from phonebook`);
+    if(confirm === false){
+      return;
+    } 
+    personService.deleteOne(id).then(()=> {
+      alert('Successfully deleted.');
+    }).catch(err => alert('Something went wrong!'));
+    setPersons( persons.filter(p=> p.id !== id))
+  }
   return (
     <div>
       <h2>Phonebook</h2>
@@ -24,7 +35,7 @@ const App = () => {
       <h3> Add a New Contact</h3>
       <PersonForm addPerson={addPerson} persons={persons}/>
       <h2>Numbers</h2>
-        <Persons persons={persons}/>
+        {persons.map(person=> <Person key={person.id} person={person}  handleDelete={()=> deletePerson(person.id)}/>)}
     </div>
   )
 }
