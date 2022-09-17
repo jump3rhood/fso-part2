@@ -6,7 +6,7 @@ const PersonForm = ({persons, addPerson}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const personExists = persons.find(person => person.name.toLowerCase() === newName.toLocaleLowerCase());
+        const personExists = persons.find(person => person.name.toLowerCase() === newName.toLowerCase());
         if(personExists){
           alert(`${newName} is already added to Phonebook`);
           setNewName('')

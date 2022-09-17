@@ -11,20 +11,21 @@ const App = () => {
     console.log("effect");
     axios.get('http://localhost:3001/persons')
     .then(resp => {
-      console.log(resp.data);
       setPersons(resp.data)
     })
   },[]);
 
   const addPerson = (personObj) => {
-    setPersons(persons.concat(personObj));
+    axios.post('http://localhost:3001/persons', personObj)
+    .then(response => {
+      setPersons(persons.concat(response.data));
+    })
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
       <Filter persons={persons}/>
-      
       <h3> Add a New Contact</h3>
       <PersonForm addPerson={addPerson} persons={persons}/>
       <h2>Numbers</h2>
