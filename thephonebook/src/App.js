@@ -1,24 +1,19 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios';
-import Filter from './Filter';
-import PersonForm from './PersonForm';
-import Persons from './Persons';
+import personService from './services/persons';
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   
   useEffect(()=> {
-    console.log("effect");
-    axios.get('http://localhost:3001/persons')
-    .then(resp => {
-      setPersons(resp.data)
-    })
+    personService.getAll().then(initialPersons => setPersons(initialPersons));
   },[]);
 
   const addPerson = (personObj) => {
-    axios.post('http://localhost:3001/persons', personObj)
-    .then(response => {
-      setPersons(persons.concat(response.data));
+    personService.create(personObj).then(addedPerson => {
+      setPersons(persons.concat(addedPerson))
     })
   }
 
